@@ -13,7 +13,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout to repo
+        uses: actions/checkout@v4
         with:
           submodules: true
 
@@ -23,19 +24,19 @@ jobs:
       - name: Build
         run: sudo -E ./build-image.sh
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: alpine-virt-image.qcow2.bz2
           path: "*.bz2"
 
-      - name: Read version
-        id: getversion
-        run: echo "::set-output name=version::$(cat version)"
+      #- name: Read version
+      #  id: getversion
+      #  run: echo "::set-output name=version::$(cat version)"
 
-      - uses: marvinpinto/action-automatic-releases@latest
-        if: github.ref == 'refs/heads/master'
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          files: "*.bz2"
-          automatic_release_tag: ${{ steps.getversion.outputs.version }}
-          prerelease: false
+      #- uses: marvinpinto/action-automatic-releases@latest
+      #  if: github.ref == 'refs/heads/master'
+      #  with:
+      #    repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #    files: "*.bz2"
+      #    automatic_release_tag: ${{ steps.getversion.outputs.version }}
+      #    prerelease: false
